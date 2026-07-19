@@ -1,0 +1,7 @@
+node_modules/
+web-ext-artifacts/
+*.log
+.DS_Store
+
+# Local working notes — kept out of the public repo
+CLAUDE.md

@@ -1,0 +1,18 @@
+{
+  "name": "kitchenowl-extension",
+  "version": "0.1.0",
+  "description": "Firefox extension to import the current page's recipe into a self-hosted KitchenOwl instance.",
+  "private": true,
+  "scripts": {
+    "dev": "web-ext run --target firefox-desktop",
+    "lint": "web-ext lint",
+    "build": "web-ext build --overwrite-dest"
+  },
+  "webExt": {
+    "sourceDir": ".",
+    "ignoreFiles": ["CLAUDE.md", "README.md", "package.json", "web-ext-artifacts"]
+  },
+  "devDependencies": {
+    "web-ext": "^8.0.0"
+  }
+}

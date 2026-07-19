@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Recipe Importer for KitchenOwl (unofficial)",
+  "version": "0.1.0",
+  "description": "Import the recipe on the current page into your self-hosted KitchenOwl instance with one click.",
+  "author": "Johannes Tebbert",
+  "homepage_url": "https://github.com/JoblessJoe/kitchenowl-extension",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "kitchenowl-importer@johannestebbert.dev",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
+    }
+  },
+  "permissions": ["storage", "activeTab"],
+  "optional_host_permissions": ["*://*/*"],
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  },
+  "action": {
+    "default_title": "Import recipe to KitchenOwl",
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon.svg",
+      "96": "icons/icon.svg"
+    }
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  }
+}

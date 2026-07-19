@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="brand">KitchenOwl</span>
+      <button id="gear" class="icon-btn" title="Settings" aria-label="Settings">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+          />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      </button>
+    </header>
+
+    <main class="body">
+      <!-- Logged-out: log in to your KitchenOwl server -->
+      <section id="login-view" class="hidden">
+        <form id="login-form" class="form">
+          <input
+            id="server"
+            class="input"
+            type="text"
+            inputmode="url"
+            autocomplete="off"
+            placeholder="Server (e.g. https://192.168.1.10:8080)"
+            required
+          />
+          <input
+            id="username"
+            class="input"
+            type="text"
+            autocomplete="username"
+            placeholder="Username or email"
+            required
+          />
+          <input
+            id="password"
+            class="input"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Password"
+            required
+          />
+          <button id="login-btn" type="submit" class="btn-primary">Log in</button>
+        </form>
+        <p id="login-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- Logged-in: save the recipe on the current page -->
+      <section id="action-view" class="hidden">
+        <p id="page-url" class="page-url" title="">—</p>
+        <button id="save-btn" class="save-btn" disabled>Save this recipe</button>
+        <p id="action-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
