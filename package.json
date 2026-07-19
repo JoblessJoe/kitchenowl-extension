@@ -10,7 +10,7 @@
   },
   "webExt": {
     "sourceDir": ".",
-    "ignoreFiles": ["CLAUDE.md", "README.md", "package.json", "web-ext-artifacts"]
+    "ignoreFiles": ["*.md", "package.json", "web-ext-artifacts"]
   },
   "devDependencies": {
     "web-ext": "^8.0.0"
