@@ -51,7 +51,7 @@ Testing:
 
 - KitchenOwl is a self-hosted service, so it needs a running KitchenOwl server to test
   against. It self-hosts in a couple of minutes with the official install guide:
-  https://docs.kitchenowl.org/self-hosting/ (Docker).
+  https://docs.kitchenowl.org/latest/self-hosting/ (Docker).
 - Once a server is running, in the extension open Settings ("Set up KitchenOwl"), enter
   the server address plus your username and password, and log in. Open any recipe page
   (for example on allrecipes.com or chefkoch.de), click the toolbar button, then "Save
