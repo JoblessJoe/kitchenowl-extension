@@ -1,5 +1,5 @@
 import { getConfig, isLoggedIn } from "../lib/storage.js";
-import { api, apiBase } from "../lib/kitchenowl.js";
+import { apiBase } from "../lib/kitchenowl.js";
 
 const gear = document.getElementById("gear");
 const loginView = document.getElementById("login-view");
@@ -67,23 +67,20 @@ setupBtn.addEventListener("click", () => {
 
 saveBtn.addEventListener("click", async () => {
   saveBtn.disabled = true;
-  setStatus(actionStatus, "Scraping recipe…", "busy");
+  setStatus(actionStatus, "Opening in KitchenOwl…", "busy");
   try {
-    const scraped = await api("scrape", { cfg: config, pageUrl: currentUrl });
-    if (!scraped || !scraped.name) {
-      setStatus(actionStatus, "No recipe could be found on this page.", "error");
-      saveBtn.disabled = false;
-      return;
-    }
-
-    setStatus(actionStatus, `Saving “${scraped.name}”…`, "busy");
-    await api("addRecipe", { cfg: config, recipe: scraped });
-
-    setStatus(actionStatus, `Saved “${scraped.name}”. Opening KitchenOwl…`, "ok");
-    await browser.tabs.create({ url: apiBase(config.serverUrl) });
+    // Open KitchenOwl's own scraper page for this URL. KitchenOwl scrapes it
+    // server-side and shows its review screen (with ingredient matching) so the
+    // user saves it there — more reliable than re-implementing recipe creation,
+    // which would drop ingredients the server hasn't seen before.
+    const base = apiBase(config.serverUrl);
+    const url = `${base}/household/${config.householdId}/recipes/scrape?url=${encodeURIComponent(
+      currentUrl
+    )}`;
+    await browser.tabs.create({ url });
     window.close();
   } catch (err) {
-    setStatus(actionStatus, err.message || "Could not save the recipe.", "error");
+    setStatus(actionStatus, err.message || "Could not open KitchenOwl.", "error");
     saveBtn.disabled = false;
   }
 });

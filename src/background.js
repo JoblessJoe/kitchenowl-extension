@@ -75,26 +75,9 @@ async function listHouseholds({ serverUrl, token }) {
   });
 }
 
-async function scrapeRecipe({ serverUrl, token, householdId }, pageUrl) {
-  const url = `${apiBase(serverUrl)}/api/household/${householdId}/recipe/scrape?url=${encodeURIComponent(
-    pageUrl
-  )}`;
-  return request(url, { method: "GET", headers: authHeaders(token) });
-}
-
-async function addRecipe({ serverUrl, token, householdId }, recipe) {
-  // Forward the scraped recipe object as-is. If the create endpoint rejects it,
-  // map fields to RecipeSchema in the KitchenOwl backend.
-  const url = `${apiBase(serverUrl)}/api/household/${householdId}/recipe`;
-  return request(url, {
-    method: "POST",
-    headers: authHeaders(token),
-    body: JSON.stringify(recipe),
-  });
-}
-
 // Message router. Every handler returns { ok, data } or { ok:false, error } so
-// friendly error messages survive the message boundary.
+// friendly error messages survive the message boundary. Saving a recipe is done
+// by opening KitchenOwl's own scraper page (see popup.js), not through here.
 browser.runtime.onMessage.addListener(async (msg) => {
   try {
     switch (msg && msg.cmd) {
@@ -102,10 +85,6 @@ browser.runtime.onMessage.addListener(async (msg) => {
         return { ok: true, data: await login(msg) };
       case "listHouseholds":
         return { ok: true, data: await listHouseholds(msg.cfg) };
-      case "scrape":
-        return { ok: true, data: await scrapeRecipe(msg.cfg, msg.pageUrl) };
-      case "addRecipe":
-        return { ok: true, data: await addRecipe(msg.cfg, msg.recipe) };
       default:
         return { ok: false, error: "Unknown command." };
     }
