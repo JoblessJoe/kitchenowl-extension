@@ -49,14 +49,16 @@ into their own KitchenOwl instance.
 
 Testing:
 
-- The easiest way to exercise the full flow is the hosted KitchenOwl at
-  https://app.kitchenowl.org. Create a free account there, then in the extension open
-  Settings ("Set up KitchenOwl"), enter https://app.kitchenowl.org as the server, plus
-  your username and password, and log in. Open any recipe page (for example on
-  allrecipes.com or chefkoch.de) and click the toolbar button, then "Save this recipe".
-  A KitchenOwl tab opens on its scraper/review page for that URL.
-- Most users self-host on a local address (for example http://192.168.1.10:8080), which
-  reviewers cannot reach — hence the hosted app above for testing.
+- KitchenOwl is a self-hosted service, so it needs a running KitchenOwl server to test
+  against. It self-hosts in a couple of minutes with the official install guide:
+  https://docs.kitchenowl.org/self-hosting/ (Docker).
+- Once a server is running, in the extension open Settings ("Set up KitchenOwl"), enter
+  the server address plus your username and password, and log in. Open any recipe page
+  (for example on allrecipes.com or chefkoch.de), click the toolbar button, then "Save
+  this recipe". A KitchenOwl tab opens on its scraper/review page for that URL.
+- If it is easier, I am happy to provide temporary credentials to a live KitchenOwl
+  instance for the review — please just request them via the developer contact and I
+  will supply a URL and login.
 
 Why the broad host permission (http://*/*, https://*/*):
 
