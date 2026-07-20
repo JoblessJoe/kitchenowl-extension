@@ -1,5 +1,5 @@
 import { getConfig, isLoggedIn } from "../lib/storage.js";
-import { scrapeRecipe, addRecipe, apiBase } from "../lib/kitchenowl.js";
+import { api, apiBase } from "../lib/kitchenowl.js";
 
 const gear = document.getElementById("gear");
 const loginView = document.getElementById("login-view");
@@ -69,7 +69,7 @@ saveBtn.addEventListener("click", async () => {
   saveBtn.disabled = true;
   setStatus(actionStatus, "Scraping recipe…", "busy");
   try {
-    const scraped = await scrapeRecipe(config, currentUrl);
+    const scraped = await api("scrape", { cfg: config, pageUrl: currentUrl });
     if (!scraped || !scraped.name) {
       setStatus(actionStatus, "No recipe could be found on this page.", "error");
       saveBtn.disabled = false;
@@ -77,7 +77,7 @@ saveBtn.addEventListener("click", async () => {
     }
 
     setStatus(actionStatus, `Saving “${scraped.name}”…`, "busy");
-    await addRecipe(config, scraped);
+    await api("addRecipe", { cfg: config, recipe: scraped });
 
     setStatus(actionStatus, `Saved “${scraped.name}”. Opening KitchenOwl…`, "ok");
     await browser.tabs.create({ url: apiBase(config.serverUrl) });

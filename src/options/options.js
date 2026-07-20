@@ -1,9 +1,5 @@
 import { getConfig, setConfig, isLoggedIn, logout } from "../lib/storage.js";
-import {
-  ensureHostPermission,
-  loginAndGetToken,
-  listHouseholds,
-} from "../lib/kitchenowl.js";
+import { ensureHostPermission, api } from "../lib/kitchenowl.js";
 
 const loggedOut = document.getElementById("logged-out");
 const loggedIn = document.getElementById("logged-in");
@@ -70,7 +66,7 @@ async function init() {
     config.householdId
   );
   try {
-    const households = await listHouseholds(config);
+    const households = await api("listHouseholds", { cfg: config });
     if (households?.length) setOptions(households, config.householdId);
   } catch (e) {
     setStatus(`Couldn't refresh households: ${e.message}`, "error");
@@ -99,9 +95,8 @@ loginForm.addEventListener("submit", async (e) => {
     }
 
     setLoginStatus("Logging in…", "busy");
-    const { token } = await loginAndGetToken({ serverUrl, username, password });
+    const { token, households } = await api("login", { serverUrl, username, password });
 
-    const households = await listHouseholds({ serverUrl, token });
     if (!households?.length) {
       setLoginStatus("No households found on this account.", "error");
       loginBtn.disabled = false;
