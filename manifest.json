@@ -17,8 +17,11 @@
       "strict_min_version": "142.0"
     }
   },
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage", "activeTab", "webRequest", "webRequestBlocking"],
   "optional_host_permissions": ["*://*/*"],
+  "background": {
+    "scripts": ["src/background.js"]
+  },
   "icons": {
     "48": "icons/icon.svg",
     "96": "icons/icon.svg"
