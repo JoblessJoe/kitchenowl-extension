@@ -66,14 +66,9 @@ async function request(url, options) {
 // contains() pre-check because request() already resolves true, without a
 // prompt, when the origin is already granted.
 //
-// We request BOTH http and https for the host: the user talks to http, but
-// Firefox's HTTPS-First may upgrade the request to https, and the background
-// downgrade listener needs permission on the https origin to intercept it.
 export function ensureHostPermission(serverUrl) {
-  const { host } = new URL(serverUrl);
-  return browser.permissions.request({
-    origins: [`http://${host}/*`, `https://${host}/*`],
-  });
+  const origin = new URL(serverUrl).origin + "/*";
+  return browser.permissions.request({ origins: [origin] });
 }
 
 // Log in with username/password, then immediately mint a long-lived token so

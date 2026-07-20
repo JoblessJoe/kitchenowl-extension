@@ -98,10 +98,6 @@ loginForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    // Arm the http-downgrade interceptor for this server before the first
-    // request, so Firefox's HTTPS-First upgrade can't strand an http server.
-    await browser.runtime.sendMessage({ type: "sync-downgrade", serverUrl });
-
     setLoginStatus("Logging in…", "busy");
     const { token } = await loginAndGetToken({ serverUrl, username, password });
 
