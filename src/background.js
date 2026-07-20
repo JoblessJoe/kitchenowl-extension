@@ -44,12 +44,11 @@ function start(host) {
   activeHost = host;
 }
 
-// Turn interception on only when the saved server is a plain-http address that
+// Turn interception on only when the given server is a plain-http address that
 // we actually have permission for; otherwise leave the network untouched.
-async function sync() {
+async function armFor(serverUrl) {
   let host = null;
   try {
-    const { serverUrl } = await browser.storage.local.get("serverUrl");
     if (serverUrl && serverUrl.startsWith("http://")) {
       host = new URL(serverUrl).host;
       const granted = await browser.permissions.contains({
@@ -66,10 +65,26 @@ async function sync() {
   else stop();
 }
 
+// Startup / storage-driven path: arm from whatever server is already saved.
+async function sync() {
+  const { serverUrl } = await browser.storage.local.get("serverUrl");
+  return armFor(serverUrl);
+}
+
 browser.storage.onChanged.addListener((changes, area) => {
   if (area === "local" && changes.serverUrl) sync();
 });
 browser.permissions.onAdded.addListener(sync);
 browser.permissions.onRemoved.addListener(sync);
+
+// The options page awaits this right after granting permission and before its
+// first request (passing the not-yet-saved server), so the interceptor is
+// guaranteed to be armed in time (the onAdded event above is async and could
+// otherwise lose the race).
+browser.runtime.onMessage.addListener((msg) => {
+  if (msg && msg.type === "sync-downgrade") {
+    return armFor(msg.serverUrl).then(() => true);
+  }
+});
 
 sync();
