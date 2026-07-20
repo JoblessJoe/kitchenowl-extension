@@ -25,14 +25,27 @@ function authHeaders(token) {
   };
 }
 
+const REQUEST_TIMEOUT_MS = 12000;
+
 async function request(url, options) {
   let res;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
-    res = await fetch(url, options);
+    res = await fetch(url, { ...options, signal: controller.signal });
   } catch (e) {
+    if (e.name === "AbortError") {
+      throw new Error(
+        "The server didn't respond. This often means Firefox is upgrading the " +
+          "address to HTTPS but your server only serves HTTP. Turn off HTTPS-Only " +
+          "mode for this site, or use the plain http:// address."
+      );
+    }
     throw new Error(
       `Could not reach the server. Check the address and that KitchenOwl is online. (${e.message})`
     );
+  } finally {
+    clearTimeout(timer);
   }
   if (res.status === 401 || res.status === 403) {
     throw new Error("Authentication failed. Check your details and try again.");
