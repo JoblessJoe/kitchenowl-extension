@@ -1,23 +1,11 @@
-import { getConfig, setConfig, isLoggedIn } from "../lib/storage.js";
-import {
-  ensureHostPermission,
-  loginAndGetToken,
-  listHouseholds,
-  scrapeRecipe,
-  addRecipe,
-  apiBase,
-} from "../lib/kitchenowl.js";
+import { getConfig, isLoggedIn } from "../lib/storage.js";
+import { scrapeRecipe, addRecipe, apiBase } from "../lib/kitchenowl.js";
 
 const gear = document.getElementById("gear");
 const loginView = document.getElementById("login-view");
 const actionView = document.getElementById("action-view");
 
-const loginForm = document.getElementById("login-form");
-const serverEl = document.getElementById("server");
-const usernameEl = document.getElementById("username");
-const passwordEl = document.getElementById("password");
-const loginBtn = document.getElementById("login-btn");
-const loginStatus = document.getElementById("login-status");
+const setupBtn = document.getElementById("setup-btn");
 
 const pageUrlEl = document.getElementById("page-url");
 const saveBtn = document.getElementById("save-btn");
@@ -43,7 +31,6 @@ async function getActiveTabUrl() {
 
 async function init() {
   config = await getConfig();
-  if (config.serverUrl) serverEl.value = config.serverUrl;
 
   if (isLoggedIn(config)) {
     await initActionView();
@@ -67,49 +54,13 @@ async function initActionView() {
   }
 }
 
-// --- Login ---------------------------------------------------------------
+// --- Setup ---------------------------------------------------------------
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const serverUrl = serverEl.value.trim();
-  const username = usernameEl.value.trim();
-  const password = passwordEl.value;
-
-  loginBtn.disabled = true;
-  setStatus(loginStatus, "Connecting…", "busy");
-  try {
-    const granted = await ensureHostPermission(serverUrl);
-    if (!granted) {
-      setStatus(loginStatus, "Permission for your server was denied.", "error");
-      loginBtn.disabled = false;
-      return;
-    }
-
-    setStatus(loginStatus, "Logging in…", "busy");
-    const { token } = await loginAndGetToken({ serverUrl, username, password });
-
-    const households = await listHouseholds({ serverUrl, token });
-    if (!households?.length) {
-      setStatus(loginStatus, "No households found on this account.", "error");
-      loginBtn.disabled = false;
-      return;
-    }
-    const household = households[0];
-
-    await setConfig({
-      serverUrl,
-      token,
-      username,
-      householdId: household.id,
-      householdName: household.name,
-    });
-    config = await getConfig();
-    passwordEl.value = "";
-    await initActionView();
-  } catch (err) {
-    setStatus(loginStatus, err.message || "Login failed.", "error");
-    loginBtn.disabled = false;
-  }
+// Login lives on the options page (a full tab) because Firefox can't show the
+// host-permission prompt reliably over this popup.
+setupBtn.addEventListener("click", () => {
+  browser.runtime.openOptionsPage();
+  window.close();
 });
 
 // --- Save recipe ---------------------------------------------------------

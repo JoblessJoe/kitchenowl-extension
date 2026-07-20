@@ -30,37 +30,10 @@
     </header>
 
     <main class="body">
-      <!-- Logged-out: log in to your KitchenOwl server -->
+      <!-- Logged-out: send the user to the options tab to log in -->
       <section id="login-view" class="hidden">
-        <form id="login-form" class="form">
-          <input
-            id="server"
-            class="input"
-            type="text"
-            inputmode="url"
-            autocomplete="off"
-            placeholder="Server (e.g. https://192.168.1.10:8080)"
-            required
-          />
-          <input
-            id="username"
-            class="input"
-            type="text"
-            autocomplete="username"
-            placeholder="Username or email"
-            required
-          />
-          <input
-            id="password"
-            class="input"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Password"
-            required
-          />
-          <button id="login-btn" type="submit" class="btn-primary">Log in</button>
-        </form>
-        <p id="login-status" class="status" role="status" aria-live="polite"></p>
+        <p class="intro">Connect the extension to your KitchenOwl server to start saving recipes.</p>
+        <button id="setup-btn" type="button" class="btn-primary">Set up KitchenOwl</button>
       </section>
 
       <!-- Logged-in: save the recipe on the current page -->

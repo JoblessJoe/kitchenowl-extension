@@ -11,7 +11,31 @@
       <h1>Settings</h1>
 
       <section id="logged-out" class="hidden">
-        <p class="lead">You're not logged in. Open the extension from the toolbar to log in to your KitchenOwl server.</p>
+        <p class="lead">Log in to your KitchenOwl server. Your address and login stay in this browser only.</p>
+        <form id="login-form" class="form">
+          <label class="field">
+            <span>Server address</span>
+            <input
+              id="server"
+              class="input"
+              type="text"
+              inputmode="url"
+              autocomplete="off"
+              placeholder="http://192.168.1.10:8080"
+              required
+            />
+          </label>
+          <label class="field">
+            <span>Username or email</span>
+            <input id="username" class="input" type="text" autocomplete="username" required />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="password" class="input" type="password" autocomplete="current-password" required />
+          </label>
+          <button id="login-btn" type="submit" class="btn-primary">Log in</button>
+        </form>
+        <p id="login-status" class="status" role="status" aria-live="polite"></p>
       </section>
 
       <section id="logged-in" class="hidden">

@@ -36,6 +36,17 @@ h1 { font-size: 20px; margin: 0 0 20px; color: var(--green); }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field > span { font-weight: 600; font-size: 14px; }
 small { color: var(--muted); font-size: 12px; }
+
+.form { display: flex; flex-direction: column; gap: 14px; margin: 20px 0 12px; }
+.input {
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--fg);
+  font: inherit;
+}
+.input:focus { outline: 2px solid var(--green); outline-offset: 0; border-color: var(--green); }
 .household-row { display: flex; gap: 10px; }
 .grow { flex: 1; }
 select {
