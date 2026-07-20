@@ -15,9 +15,11 @@ let activeHost = null; // "host:port" we currently intercept, or null
 let listener = null;
 
 function downgradeToHttp(details) {
+  console.log("[kitchenowl] onBeforeRequest saw:", details.url);
   const url = new URL(details.url);
   if (url.protocol === "https:") {
     url.protocol = "http:";
+    console.log("[kitchenowl] downgrading ->", url.toString());
     return { redirectUrl: url.toString() };
   }
   return {};
@@ -60,6 +62,7 @@ async function armFor(serverUrl) {
     host = null;
   }
 
+  console.log("[kitchenowl] armFor", serverUrl, "-> host:", host, "(was", activeHost + ")");
   if (host === activeHost) return;
   if (host) start(host);
   else stop();
