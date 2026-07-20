@@ -71,21 +71,21 @@ body {
 .btn-primary:hover { background: var(--green-dark); }
 .btn-primary:disabled { opacity: 0.6; cursor: default; }
 
-/* The one big action: white button, green writing */
+/* The one big action: green button, white writing */
 .save-btn {
   width: 100%;
   padding: 18px 16px;
   border: 2px solid var(--green);
   border-radius: 14px;
-  background: #ffffff;
-  color: var(--green);
+  background: var(--green);
+  color: #ffffff;
   font: inherit;
   font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
-.save-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--green) 6%, #fff); }
+.save-btn:hover:not(:disabled) { background: var(--green-dark); border-color: var(--green-dark); }
 .save-btn:disabled { opacity: 0.55; cursor: default; }
 
 .intro { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
