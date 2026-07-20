@@ -1,5 +1,5 @@
 import { getConfig, setConfig, isLoggedIn, logout } from "../lib/storage.js";
-import { ensureHostPermission, api } from "../lib/kitchenowl.js";
+import { api } from "../lib/kitchenowl.js";
 
 const loggedOut = document.getElementById("logged-out");
 const loggedIn = document.getElementById("logged-in");
@@ -83,18 +83,8 @@ loginForm.addEventListener("submit", async (e) => {
   const password = passwordEl.value;
 
   loginBtn.disabled = true;
-  setLoginStatus("Requesting access to your server…", "busy");
+  setLoginStatus("Logging in…", "busy");
   try {
-    // Must be the first await so the user gesture is still active (see
-    // ensureHostPermission).
-    const granted = await ensureHostPermission(serverUrl);
-    if (!granted) {
-      setLoginStatus("Permission for your server was denied.", "error");
-      loginBtn.disabled = false;
-      return;
-    }
-
-    setLoginStatus("Logging in…", "busy");
     const { token, households } = await api("login", { serverUrl, username, password });
 
     if (!households?.length) {

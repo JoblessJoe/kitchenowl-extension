@@ -11,18 +11,6 @@ export function apiBase(serverUrl) {
   return serverUrl.replace(/\/+$/, "");
 }
 
-// Optional host permission for the user's server origin. Firefox requires
-// permissions.request() to run synchronously inside a user gesture, so this
-// must be the FIRST async call in the click/submit handler — any prior `await`
-// (including permissions.contains) consumes the gesture and Firefox then throws
-// "permissions.request may only be called from a user input handler". We skip a
-// contains() pre-check because request() already resolves true, without a
-// prompt, when the origin is already granted.
-export function ensureHostPermission(serverUrl) {
-  const origin = new URL(serverUrl).origin + "/*";
-  return browser.permissions.request({ origins: [origin] });
-}
-
 // Send a command to the background network layer and unwrap its { ok, data }
 // envelope, re-throwing friendly errors that were raised during the fetch.
 export async function api(cmd, params = {}) {
