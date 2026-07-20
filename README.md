@@ -34,7 +34,11 @@ log in.
 
 ## Install
 
-Until it's published on Firefox Add-ons, you can run it locally:
+**Coming soon to the official Firefox Add-ons store** — it has been submitted to
+[addons.mozilla.org](https://addons.mozilla.org) and is awaiting review. Once approved
+you'll be able to install it with one click and get automatic updates.
+
+In the meantime, you can run it locally:
 
 1. Clone this repo.
 2. In Firefox, open `about:debugging#/runtime/this-firefox`.
